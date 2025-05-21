@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 import requests
-from main import write_randbats_sets_to_file
+from main import write_randbats_sets_to_file, write_smogon_sets_to_file
 
 app = Flask(__name__)
 
@@ -15,6 +15,7 @@ def get_randbats_sets(gen):
 def get_smogon_sets(format):
     print(f"Received format: {format}")  # Debugging output
     data = requests.get(f'https://pkmn.github.io/smogon/data/sets/{format}.json').json()
+    write_smogon_sets_to_file(data, f'{format}.txt')
     return jsonify(data)
 @app.route("/formats")
 def get_formats():
